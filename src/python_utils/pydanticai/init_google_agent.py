@@ -29,9 +29,7 @@ def _load_google_credentials() -> service_account.Credentials:
         )
     except Exception as e:
         msg = f"Failed to load Google Cloud credentials from '{credentials_path}'. Please ensure the file exists and is a valid service account JSON file. Error: {e}"
-        raise OSError(  # noqa: B904
-            msg
-        )
+        raise OSError(msg)
 
 
 def initialize_agent(
