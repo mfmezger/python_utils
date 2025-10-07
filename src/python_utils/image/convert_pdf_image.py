@@ -36,7 +36,7 @@ def convert_pdfs(src_root: Path, dest_root: Path) -> int:
         try:
             for i in range(doc.page_count):
                 page = doc.load_page(i)
-                pix = page.get_pixmap(matrix=mat)
+                pix = page.get_pixmap(matrix=mat)  # pyright: ignore[reportAttributeAccessIssue]
                 out_path = out_dir / f"{pdf.stem}_page_{i + 1:03d}.png"
                 pix.save(str(out_path))
                 written += 1
