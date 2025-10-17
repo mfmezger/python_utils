@@ -21,11 +21,12 @@ def _load_google_credentials() -> service_account.Credentials:
         EnvironmentError: If GOOGLE_APPLICATION_CREDENTIALS is not set or invalid
 
     """
-    credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+    credentials_path = os.getenv(key="GOOGLE_APPLICATION_CREDENTIALS")
 
     try:
         return service_account.Credentials.from_service_account_file(
-            credentials_path, scopes=["https://www.googleapis.com/auth/cloud-platform"]
+            filename=credentials_path,
+            scopes=["https://www.googleapis.com/auth/cloud-platform"],
         )
     except Exception as e:
         msg = f"Failed to load Google Cloud credentials from '{credentials_path}'. Please ensure the file exists and is a valid service account JSON file. Error: {e}"
@@ -35,9 +36,11 @@ def _load_google_credentials() -> service_account.Credentials:
 def initialize_agent(
     prompt: str,
     output_model: type[BaseModel],
-    temperature: float = 0.0,
+    temperature: float = 0.7,
     thinking_budget: int = 0,
     model_name: str = "gemini-2.5-flash",
+    tools: list = [],
+    retries: int = 5,
 ) -> Agent[str, BaseModel]:
     """Initialize a Pydantic AI agent with Google model.
 
@@ -47,6 +50,7 @@ def initialize_agent(
         temperature: Model temperature for randomness
         thinking_budget: Budget for thinking tokens
         model_name: Name of the Google model to use
+        tools: List of tools to be used by the agent
 
     Returns:
         Configured Pydantic AI agent
@@ -88,8 +92,9 @@ def initialize_agent(
         output_type=output_model,
         instrument=True,
         model_settings=model_settings,
-        retries=10,
+        retries=retries,
         system_prompt=textwrap.dedent(
             text=prompt,
         ),
+        tools=tools,
     )
