@@ -2,7 +2,7 @@
 repos:
   # Python linting and formatting tools
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.13.2
+    rev: v0.14.7
     hooks:
       - id: ruff-check
         args:
@@ -31,7 +31,7 @@ repos:
           - black==22.12.0
   # Upgrade Python syntax to newer versions
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.20.0
+    rev: v3.21.2
     hooks:
       - id: pyupgrade
         args:
@@ -46,21 +46,21 @@ repos:
           - --severity=warning
   # Validate GitHub Actions workflow files
   - repo: https://github.com/sirosen/check-jsonschema
-    rev: 0.34.0
+    rev: 0.35.0
     hooks:
       - id: check-github-workflows
         args:
           - --verbose
   # Check for broken links in markdown files
   - repo: https://github.com/tcort/markdown-link-check
-    rev: v3.13.7
+    rev: v3.14.2
     hooks:
       - id: markdown-link-check
         args:
           - -q
   # Static type checking for Python
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.18.2
+    rev: v1.19.0
     hooks:
       - id: mypy
   # Remove unnecessary # noqa comments
@@ -75,7 +75,7 @@ repos:
       - id: codespell
   # Detect hardcoded secrets and sensitive information
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.28.0
+    rev: v8.30.0
     hooks:
       - id: gitleaks
   # Validate Makefiles
@@ -90,12 +90,12 @@ repos:
       - id: yamllint
   # Detect typos in text files
   - repo: https://github.com/crate-ci/typos
-    rev: v1.36.3
+    rev: v1
     hooks:
       - id: typos
   # Format YAML files consistently
   - repo: https://github.com/google/yamlfmt
-    rev: v0.17.2
+    rev: v0.20.0
     hooks:
       - id: yamlfmt
 # - repo: https://github.com/commitizen-tools/commitizen
