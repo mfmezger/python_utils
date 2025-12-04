@@ -39,7 +39,7 @@ def initialize_agent(
     temperature: float = 0.7,
     thinking_budget: int = 0,
     model_name: str = "gemini-2.5-flash",
-    tools: list = [],
+    tools: list | None = None,
     retries: int = 5,
 ) -> Agent[str, BaseModel]:
     """Initialize a Pydantic AI agent with Google model.
@@ -50,12 +50,16 @@ def initialize_agent(
         temperature: Model temperature for randomness
         thinking_budget: Budget for thinking tokens
         model_name: Name of the Google model to use
-        tools: List of tools to be used by the agent
+        tools: List of tools to be used by the agent (default: None)
+        retries: Number of retries for failed requests (default: 5)
 
     Returns:
         Configured Pydantic AI agent
 
     """
+    if tools is None:
+        tools = []
+
     credentials = _load_google_credentials()
 
     provider = GoogleProvider(credentials=credentials, location="europe-west1")

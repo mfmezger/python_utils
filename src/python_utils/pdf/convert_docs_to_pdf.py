@@ -1,11 +1,12 @@
 from pathlib import Path
+from itertools import chain
 from loguru import logger
 import subprocess
 
 
 def convert_docs_to_pdf(root_dir: str | Path) -> None:
     """
-    Recursively finds all .doc files in a directory and converts them to PDF
+    Recursively finds all .doc and .docx files in a directory and converts them to PDF
     using LibreOffice.
     """
     root_path = Path(root_dir)
@@ -13,7 +14,8 @@ def convert_docs_to_pdf(root_dir: str | Path) -> None:
         logger.error(f"Error: Directory '{root_path}' not found.")
         return
 
-    for doc_path in root_path.rglob("*.doc"):
+    doc_files = chain(root_path.rglob("*.doc"), root_path.rglob("*.docx"))
+    for doc_path in doc_files:
         logger.info(f"Converting {doc_path} to PDF...")
         try:
             subprocess.run(

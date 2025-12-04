@@ -35,7 +35,7 @@ def flatten_json_results(json_data: dict[str, Any]) -> pd.DataFrame:
                 "model": model,
                 "has_probs": has_probs,
                 "prompt": result.get("prompt"),
-                "malicions": result.get("malicions"),
+                "malicious": result.get("malicious"),
                 "prob": result.get("prob"),
                 "content": result.get("content"),
             }

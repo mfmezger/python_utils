@@ -6,11 +6,14 @@ A collection of useful Python scripts for various tasks.
   - [Modules](#modules)
     - [Image Conversion](#image-conversion)
     - [PDF Conversion](#pdf-conversion)
+    - [JSON to Excel](#json-to-excel)
     - [Pydantic AI](#pydantic-ai)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Installation and Setup](#installation-and-setup)
   - [Usage](#usage)
+    - [CLI Commands](#cli-commands)
+    - [Python API](#python-api)
 
 ## Modules
 
@@ -20,7 +23,11 @@ A collection of useful Python scripts for various tasks.
 
 ### PDF Conversion
 
--   **`src/python_utils/pdf/convert_docs_to_pdf.py`**: Converts `.doc` files to PDF format using LibreOffice. It recursively searches for `.doc` files in a given directory and converts them in place.
+-   **`src/python_utils/pdf/convert_docs_to_pdf.py`**: Converts `.doc` and `.docx` files to PDF format using LibreOffice. It recursively searches for documents in a given directory and converts them in place.
+
+### JSON to Excel
+
+-   **`src/python_utils/json2excel/json_to_excel.py`**: Converts JSON files with nested structures to Excel spreadsheets with a flattened tabular format. Supports both single file and batch directory conversion.
 
 ### Pydantic AI
 
@@ -31,14 +38,14 @@ A collection of useful Python scripts for various tasks.
 ### Prerequisites
 
 -   Python 3.12+
--   [LibreOffice](https://www.libreoffice.org/download/download/) needs to be installed and in your system's PATH for the `.doc` to PDF conversion.
+-   [LibreOffice](https://www.libreoffice.org/download/download/) needs to be installed and in your system's PATH for the `.doc`/`.docx` to PDF conversion.
 -   Google Cloud credentials for the Pydantic AI agent.
 
 ### Installation and Setup
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/python_utils.git
+    git clone https://github.com/mfmezger/python_utils.git
     cd python_utils
     ```
 
@@ -57,17 +64,54 @@ A collection of useful Python scripts for various tasks.
 
 ## Usage
 
-Each module can be run as a standalone script.
+### CLI Commands
 
--   **Convert PDFs to Images**:
-    -   Edit the `SRC_ROOT` and `DEST_ROOT` variables in `src/python_utils/image/convert_pdf_image.py`.
-    -   Run the script: `python src/python_utils/image/convert_pdf_image.py`
+After installation, use the `python-utils` CLI:
 
--   **Convert .doc to PDF**:
-    -   Place your `.doc` files in a directory (e.g., `data`).
-    -   Edit the `data_dir` variable in `src/python_utils/pdf/convert_docs_to_pdf.py`.
-    -   Run the script: `python src/python_utils/pdf/convert_docs_to_pdf.py`
+```bash
+# Convert JSON to Excel
+python-utils json2excel input.json -o output.xlsx
+python-utils json2excel ./json_directory/ -o ./excel_output/
 
--   **Initialize Pydantic AI Agent**:
-    -   Set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to the path of your Google Cloud service account JSON file.
-    -   Import and use the `initialize_agent` function in your code.
+# Convert PDFs to images
+python-utils pdf2image ./pdfs/ ./images/
+
+# Convert .doc/.docx to PDF
+python-utils doc2pdf ./documents/
+
+# Show help
+python-utils --help
+```
+
+### Python API
+
+Import modules directly in your code:
+
+```python
+# Image conversion
+from python_utils.image import convert_pdfs
+
+convert_pdfs(src_root="./pdfs", dest_root="./images")
+
+# JSON to Excel
+from python_utils.json2excel import convert_json_to_excel
+
+convert_json_to_excel(Path("data.json"), Path("output.xlsx"))
+
+# Document to PDF
+from python_utils.pdf import convert_docs_to_pdf
+
+convert_docs_to_pdf("./documents")
+
+# Pydantic AI Agent
+from python_utils.pydanticai import initialize_agent
+
+agent = initialize_agent(
+    prompt="You are a helpful assistant.",
+    output_model=MyOutputModel,
+)
+```
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.
